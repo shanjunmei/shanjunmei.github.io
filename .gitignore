@@ -1,0 +1,10 @@
+# ===== Private / internal assets — NOT for public release =====
+# Standalone résumé (contains PII: real name, contact, employment history)
+个人简历-*.docx
+# QA screenshots + lint report (internal dev artifacts)
+_shots/
+# Working notes (scratch)
+_t.txt
+.workbuddy
+个人介绍页-求客户版.html
+个人介绍页-求职版.html

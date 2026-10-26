@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>shanjunmei · 后端架构师 / 开源维护者</title>
+<meta name="description" content="shanjunmei — Go 后端架构师、开源维护者（dig/digen）、AI Agent 实践者。十年后端，七个自研系统，一个开源框架。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="shanjunmei · 后端架构师 / 开源维护者">
+<meta property="og:description" content="shanjunmei — Go 后端架构师、开源维护者（dig/digen）、AI Agent 实践者。十年后端，七个自研系统，一个开源框架。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="shanjunmei">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="shanjunmei · 后端架构师 / 开源维护者">
+<meta name="twitter:description" content="shanjunmei — Go 后端架构师、开源维护者（dig/digen）、AI Agent 实践者。">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"shanjunmei","jobTitle":"Go Backend Architect / Open-Source Maintainer","url":"https://github.com/shanjunmei","sameAs":["https://github.com/shanjunmei","https://shanjunmei.github.io/dig/"],"description":"Go 后端架构师、开源维护者（dig/digen）、AI Agent 实践者。"}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f2a22'/%3E%3Cpath d='M9 22V10h4.2c1.5 0 2.7.4 3.5 1.1.8.7 1.2 1.7 1.2 3s-.4 2.3-1.2 3c-.8.7-2 1.1-3.5 1.1H11.6V22H9zm2.6-2.4h1.4c.9 0 1.6-.2 2-.6.4-.4.6-1 .6-1.9s-.2-1.5-.6-1.9c-.4-.4-1.1-.6-2-.6h-1.4v5z' fill='%23e0a94e'/%3E%3Cpath d='M22.8 10l-3 12h-2.4l3-12h2.4z' fill='%23e0a94e'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn" crossorigin>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* ============ tokens ============ */
+:root{
+  --bg:#f2f0e8; --bg-soft:#e9e6da; --surface:#fbfaf5;
+  --ink:#1f2a22; --ink-2:#4c574e; --ink-3:#79837a;
+  --line:#d9d5c7; --line-strong:#c2bdab;
+  --accent:#a86f15; --accent-strong:#8a5a0e; --accent-soft:rgba(168,111,21,.12);
+  --code-bg:#232a24; --code-ink:#e8e4d7; --code-dim:#9aa69c; --code-accent:#e0a94e;
+  --serif:"Noto Serif SC","Songti SC",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","Cascadia Code",Consolas,monospace;
+  --shadow:0 1px 2px rgba(31,42,34,.06), 0 8px 24px rgba(31,42,34,.06);
+  --gap-section:72px;
+  --shadow-hover:0 6px 18px rgba(31,42,34,.14), 0 16px 40px rgba(31,42,34,.10);
+}
+html[data-theme="dark"]{
+  --bg:#141914; --bg-soft:#1a211a; --surface:#1d251e;
+  --ink:#e9e5d8; --ink-2:#a8b2a7; --ink-3:#7c867b;
+  --line:#2c352c; --line-strong:#3d493f;
+  --accent:#e0a94e; --accent-strong:#f0bb62; --accent-soft:rgba(224,169,78,.14);
+  --code-bg:#0e130f; --code-ink:#e9e5d8; --code-dim:#8f9c90; --code-accent:#e0a94e;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3);
+  --shadow-hover:0 6px 18px rgba(0,0,0,.45), 0 16px 40px rgba(0,0,0,.35);
+}
+/* ============ base ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans); background:var(--bg); color:var(--ink);
+  font-size:16px; line-height:1.75; -webkit-font-smoothing:antialiased;
+  transition:background .25s ease, color .25s ease;
+}
+a{color:var(--accent); text-decoration:none}
+a:hover{color:var(--accent-strong)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+.mono{font-family:var(--mono)}
+section{scroll-margin-top:72px}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+.skip-link{position:absolute; left:-9999px; top:0; z-index:100; background:var(--accent); color:#fff; padding:9px 14px; border-radius:0 0 8px 0; font-size:14px; font-family:var(--sans)}
+.skip-link:focus{left:0; color:#fff}
+/* ============ nav ============ */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  background:var(--bg);
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  border-bottom:1px solid var(--line); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+}
+.nav-inner{max-width:1080px; margin:0 auto; padding:0 24px; height:60px; display:flex; align-items:center; gap:20px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; color:var(--ink); font-size:15px}
+.brand-mark{
+  width:28px; height:28px; border-radius:7px; background:linear-gradient(135deg, var(--ink), color-mix(in srgb, var(--ink) 78%, var(--accent))); color:var(--bg);
+  display:grid; place-items:center; font-family:var(--mono); font-size:12px; font-weight:700; box-shadow:var(--shadow);
+}
+.nav-links{display:flex; gap:4px; margin-left:auto; align-items:center}
+.nav-links a{color:var(--ink-2); font-size:14px; padding:6px 10px; border-radius:6px}
+.nav-links a:hover{color:var(--ink); background:var(--accent-soft)}
+.nav-tools{display:flex; gap:6px; margin-left:8px}
+.tbtn{
+  display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 12px;
+  border:1px solid var(--line-strong); border-radius:999px; background:var(--surface);
+  color:var(--ink-2); font-family:var(--mono); font-size:12px; cursor:pointer;
+  transition:border-color .2s, color .2s;
+}
+.tbtn:hover{border-color:var(--accent); color:var(--accent)}
+.tbtn svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.nav-toggle{display:none; align-items:center; justify-content:center; width:36px; height:32px; border:1px solid var(--line-strong); border-radius:999px; background:var(--surface); color:var(--ink-2); cursor:pointer; transition:border-color .2s, color .2s}
+.nav-toggle:hover{border-color:var(--accent); color:var(--accent)}
+.nav-toggle svg{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round}
+/* ============ hero ============ */
+.hero{position:relative; padding:132px 0 64px; overflow:hidden}
+.hero::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:44px 44px; opacity:.45;
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 30% 20%, #000 30%, transparent 75%);
+  mask-image:radial-gradient(ellipse 90% 70% at 30% 20%, #000 30%, transparent 75%);
+}
+.hero-inner{position:relative; z-index:1}
+.hero::after{content:""; position:absolute; top:-30px; right:-8%; width:460px; height:460px; border-radius:50%; background:radial-gradient(circle, var(--accent-soft) 0%, transparent 70%); pointer-events:none; z-index:0}
+.prompt{font-family:var(--mono); font-size:13px; color:var(--ink-3); margin-bottom:20px; display:flex; align-items:center; gap:8px}
+.prompt .sym{color:var(--accent); font-weight:700}
+.hero h1{
+  font-family:var(--serif); font-weight:900; font-size:clamp(2.1rem, 5.2vw, 3.5rem);
+  line-height:1.25; letter-spacing:.01em; max-width:16em;
+}
+.hero-lead{
+  margin-top:22px; max-width:620px; color:var(--ink-2); font-size:16.5px;
+}
+.hero-cta{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; height:44px; padding:0 22px; border-radius:10px;
+  font-size:15px; font-weight:500; transition:transform .15s ease, box-shadow .2s, background .2s;
+}
+.btn-primary{background:var(--accent); color:#fff; box-shadow:0 6px 18px rgba(168,111,21,.30)}
+.btn-primary:hover{background:var(--accent-strong); color:#fff; transform:translateY(-1px)}
+.btn-ghost{border:1px solid var(--line-strong); color:var(--ink)}
+.btn-ghost:hover{border-color:var(--accent); color:var(--accent)}
+.stats{
+  margin-top:44px; padding-top:30px; border-top:1px solid var(--line);
+  display:grid; grid-template-columns:repeat(2, 1fr); gap:22px 28px;
+}
+.stat b{display:block; font-family:var(--mono); font-size:26px; font-weight:700; color:var(--accent); line-height:1.2}
+.stat span{font-size:13.5px; color:var(--ink-3)}
+/* ============ sections ============ */
+.section{padding:var(--gap-section) 0}
+.section + .section{border-top:1px solid var(--line)}
+.s-title{font-family:var(--serif); font-weight:700; font-size:clamp(1.5rem, 3vw, 2rem); margin-bottom:10px}
+.s-rule{width:52px; height:3px; background:var(--accent); border-radius:2px; margin-bottom:30px}
+/* ============ about ============ */
+.about-grid{display:grid; grid-template-columns:1fr; gap:34px}
+.about p{color:var(--ink-2); max-width:640px; margin-bottom:16px}
+.about p strong{color:var(--ink); font-weight:600}
+.facts{
+  border:1px solid var(--line); border-radius:12px; padding:22px 24px; background:var(--surface);
+  box-shadow:var(--shadow); align-self:start;
+}
+.facts h3{font-size:14px; font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:8px}
+.facts h3 svg{width:15px; height:15px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.facts ul{list-style:none}
+.facts li{display:flex; gap:10px; align-items:baseline; font-size:14px; color:var(--ink-2); padding:8px 0; border-top:1px dashed var(--line)}
+.facts li:first-child{border-top:none}
+.facts li::before{content:""; width:5px; height:5px; border-radius:50%; background:var(--accent); flex:none; transform:translateY(-2px)}
+/* ============ projects ============ */
+.pcard{
+  border:1px solid var(--line); border-radius:14px; background:var(--surface);
+  box-shadow:var(--shadow); padding:26px 26px 22px; display:flex; flex-direction:column;
+  transition:border-color .2s, transform .2s;
+}
+.pcard:hover{border-color:var(--accent); transform:translateY(-3px); box-shadow:var(--shadow-hover)}
+.facts,.principle,.stack-group,.contact-card{transition:border-color .2s, transform .2s, box-shadow .2s}
+.facts:hover,.principle:hover,.stack-group:hover,.contact-card:hover{border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--shadow-hover)}
+.pcard-head{display:flex; align-items:center; gap:12px; margin-bottom:12px}
+.picon{
+  width:40px; height:40px; border-radius:10px; flex:none; display:grid; place-items:center;
+  background:var(--accent-soft); color:var(--accent);
+}
+.picon svg{width:21px; height:21px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.pcard-head .pt{flex:1; min-width:0}
+.ptag{display:inline-block; font-family:var(--mono); font-size:11px; color:var(--accent); letter-spacing:.06em; margin-bottom:3px}
+.pcard h3{font-family:var(--serif); font-size:18.5px; font-weight:700; line-height:1.4}
+.pdesc{color:var(--ink-2); font-size:14.5px; margin-bottom:14px}
+.points{list-style:none; margin-bottom:16px; flex:1}
+.points li{position:relative; padding-left:18px; font-size:14px; color:var(--ink-2); margin-bottom:8px; line-height:1.6}
+.points li::before{content:""; position:absolute; left:2px; top:9px; width:6px; height:6px; border-left:1.5px solid var(--accent); border-bottom:1.5px solid var(--accent); transform:rotate(-45deg)}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chip{font-family:var(--mono); font-size:11.5px; color:var(--ink-2); border:1px solid var(--line); border-radius:999px; padding:3px 10px}
+.pfoot{margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); display:flex; gap:18px; font-size:14px}
+.group-title{
+  font-family:var(--mono); font-size:13px; color:var(--ink-3); letter-spacing:.1em;
+  margin:36px 0 14px; display:flex; align-items:center; gap:14px;
+}
+.group-title::after{content:""; flex:1; height:1px; background:var(--line)}
+.pwide .points{display:grid; grid-template-columns:1fr; gap:4px}
+.pgrid{display:grid; grid-template-columns:1fr; gap:20px; margin-top:20px}
+/* featured dig */
+.dig-card{display:grid; grid-template-columns:1fr; gap:26px; padding:30px 28px}
+.code{
+  background:var(--code-bg); border-radius:12px; overflow:hidden; border:1px solid var(--line);
+}
+.code-head{
+  display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid rgba(255,255,255,.08);
+  font-family:var(--mono); font-size:12px; color:var(--code-dim);
+}
+.code-head .dot{width:8px; height:8px; border-radius:50%; background:var(--code-dim); opacity:.7}
+.code-head .dot:first-child{background:var(--code-accent)}
+.code pre{padding:16px 18px; font-family:var(--mono); font-size:13px; line-height:1.7; color:var(--code-ink); overflow-x:auto}
+.code pre .c{color:var(--code-dim)}
+.code pre .k{color:var(--code-accent)}
+.code pre .p{color:var(--code-dim)}
+/* ============ principles ============ */
+.principles{display:grid; grid-template-columns:1fr; gap:16px}
+.principle{border:1px solid var(--line); border-radius:12px; padding:22px 24px; background:var(--surface)}
+.principle svg{width:20px; height:20px; stroke:var(--accent); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; margin-bottom:12px}
+.principle h3{font-size:16px; font-weight:700; margin-bottom:6px}
+.principle p{font-size:14px; color:var(--ink-2)}
+/* ============ stack ============ */
+.stack{display:grid; grid-template-columns:1fr; gap:22px}
+.stack-group{border:1px solid var(--line); border-radius:12px; padding:18px 22px; background:var(--surface)}
+.stack-group h3{font-size:13px; font-weight:700; color:var(--ink-3); margin-bottom:10px; font-family:var(--mono); letter-spacing:.04em}
+/* ============ contact ============ */
+.contact-card{
+  border:1px solid var(--line); border-radius:14px; background:var(--surface); box-shadow:var(--shadow);
+  padding:30px 28px; display:flex; flex-direction:column; gap:18px;
+}
+.contact-row{display:flex; align-items:center; gap:14px; font-size:15px}
+.contact-row .ci{width:38px; height:38px; border-radius:9px; background:var(--accent-soft); color:var(--accent); display:grid; place-items:center; flex:none}
+.contact-row .ci svg{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round}
+.contact-row .cl{color:var(--ink-3); font-size:13px; font-family:var(--mono)}
+.contact-row .cv{color:var(--ink); font-family:var(--mono); font-size:14px}
+.contact-note{margin-top:18px; font-size:13.5px; color:var(--ink-3)}
+/* ============ footer ============ */
+.footer{border-top:1px solid var(--line); padding:26px 0 40px; text-align:center; color:var(--ink-3); font-size:13px}
+/* ============ responsive ============ */
+@media (min-width:900px){
+  .principles{grid-template-columns:repeat(3, 1fr)}
+}
+@media (min-width:768px){
+  .stats{grid-template-columns:repeat(4, 1fr)}
+  .about-grid{grid-template-columns:1fr 320px}
+  .pgrid{grid-template-columns:repeat(2, 1fr)}
+  .dig-card{grid-template-columns:1.15fr .85fr}
+  .pwide .points{grid-template-columns:repeat(3, 1fr); gap:14px}
+  .stack{grid-template-columns:repeat(2, 1fr)}
+  .stack .stack-group:last-child{grid-column:1 / -1}
+}
+@media (max-width:640px){
+  .nav-links{
+    display:none; position:absolute; top:60px; left:0; right:0;
+    flex-direction:column; gap:2px; margin:0; padding:8px 16px 14px;
+    background:var(--bg); border-bottom:1px solid var(--line); box-shadow:var(--shadow);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px 10px; font-size:15px; border-radius:8px}
+  .nav-toggle{display:inline-flex}
+  .nav-inner{gap:10px}
+  .hero{padding:112px 0 52px}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *, *::before, *::after{transition:none !important; animation:none !important}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#top" data-i18n="a11y.skip">跳到主内容</a>
+
+<!-- ===== 导航 ===== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="shanjunmei">
+      <span class="brand-mark">sj</span>
+      <span>shanjunmei</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="主导航">
+      <a href="#about" data-i18n="nav.about">关于</a>
+      <a href="#projects" data-i18n="nav.projects">项目</a>
+      <a href="#principles" data-i18n="nav.principles">理念</a>
+      <a href="#stack" data-i18n="nav.stack">技术栈</a>
+      <a href="#contact" data-i18n="nav.contact">联系</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="菜单" aria-expanded="false" aria-controls="navLinks">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <div class="nav-tools">
+      <button class="tbtn" id="themeBtn" type="button" aria-label="切换主题">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+        <span id="themeLabel">暗色</span>
+      </button>
+      <button class="tbtn" id="langBtn" type="button" aria-label="切换语言">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <p class="prompt"><span class="sym">$</span><span data-i18n="hero.whoami">whoami — backend architect · open-source maintainer</span></p>
+      <h1 data-i18n="hero.h1">十年后端，七个自研系统，一个开源框架</h1>
+      <p class="hero-lead" data-i18n="hero.lead">我是 shanjunmei，Go 后端架构师、开源维护者、AI Agent 实践者。信奉第一性原理选型，方案要可验证，结果要可追溯。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#projects" data-i18n="hero.cta1">查看项目</a>
+        <a class="btn btn-ghost" href="https://github.com/shanjunmei" target="_blank" rel="noopener" data-i18n="hero.cta2">GitHub</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>10+</b><span data-i18n="stats.jv">年 Java 后端经验</span></div>
+        <div class="stat"><b>5+</b><span data-i18n="stats.gv">年 Go 后端架构</span></div>
+        <div class="stat"><b>7</b><span data-i18n="stats.prj">个从零自研系统</span></div>
+        <div class="stat"><b>1</b><span data-i18n="stats.oss">个开源框架</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 关于 ===== -->
+  <section class="section" id="about">
+    <div class="wrap">
+      <h2 class="s-title" data-i18n="about.title">关于我</h2>
+      <div class="s-rule"></div>
+      <div class="about-grid">
+        <div class="about">
+          <p data-i18n="about.p1">我是一名<strong>后端架构师</strong>，十多年 Java 后端打底，五年来主力转向 Go。长期在做三件事：打磨编译期依赖注入框架 <strong>dig</strong> 与代码生成器 <strong>digen</strong>；从零构建 AI Agent 系统 <strong>Hermes</strong>；把「平台公约」逐条落地成 <strong>Ride</strong>、<strong>huidao</strong>、<strong>LogiX</strong> 等平台的代码与制度。</p>
+          <p data-i18n="about.p2">我偏好的工程方式：选型从原理出发，方案必须可验证，数字必须可追溯。计算密集的事交给 C/C++，编排与控制交给 Go；能编译期解决的绝不留给运行时；能删掉的中间产物绝不保留过渡兼容。</p>
+          <p data-i18n="about.p3">对产品，我坚持「不玩套路，只赚明钱」——明码实价、排序不卖、广告必标、无会员无订阅。每一分钱的去向写进账单，每一次处置的理由摆上桌面。</p>
+        </div>
+        <aside class="facts">
+          <h3>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+            <span data-i18n="about.factsTitle">个人档案</span>
+          </h3>
+          <ul>
+            <li data-i18n="about.f1">坐标：深圳</li>
+            <li data-i18n="about.f2">跨平台：Windows / macOS / Linux</li>
+            <li data-i18n="about.f3">移动端：Flutter 一套代码多端</li>
+            <li data-i18n="about.f4">深度使用 AI 辅助开发</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 项目 ===== -->
+  <section class="section" id="projects">
+    <div class="wrap">
+      <h2 class="s-title" data-i18n="projects.title">项目</h2>
+      <div class="s-rule"></div>
+
+      <div class="pcard dig-card">
+        <div>
+          <div class="pcard-head">
+            <div class="picon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.4"/><circle cx="19" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.2 7.2l3.6 8.4M16.8 7.2l-3.6 8.4M7.4 6h9.2"/></svg></div>
+            <div class="pt">
+              <span class="ptag" data-i18n="projects.dig.tag">开源 · Go</span>
+              <h3 data-i18n="projects.dig.name">shanjunmei/dig — 编译期依赖注入</h3>
+            </div>
+          </div>
+          <p class="pdesc" data-i18n="projects.dig.desc">Fx 式极简 API + Wire 式代码生成：零反射、零运行时依赖，依赖错误在生成期暴露，而非运行期。</p>
+          <ul class="points">
+            <li data-i18n="projects.dig.p1">闭包捕获安全 + Identity-closure 折叠，同类型多实例用参数名注入</li>
+            <li data-i18n="projects.dig.p2">digen 内建 check / graph（Mermaid）/ explain 诊断，错误带 file:line 与修复建议</li>
+            <li data-i18n="projects.dig.p3">30+ 示例应用与 gen_failures 契约测试套件，持续迭代至 v1.0.24</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Go</span><span class="chip">codegen</span><span class="chip">MIT</span>
+          </div>
+          <div class="pfoot">
+            <a href="https://github.com/shanjunmei/dig" target="_blank" rel="noopener" data-i18n="projects.dig.l1">GitHub →</a>
+            <a href="https://shanjunmei.github.io/dig/" target="_blank" rel="noopener" data-i18n="projects.dig.l2">文档站 →</a>
+          </div>
+        </div>
+        <div class="code" aria-label="dig 用法示例">
+          <div class="code-head"><span class="dot"></span><span class="dot"></span><span>di.go — 声明依赖</span></div>
+          <pre><code><span class="k">dig</span>.<span class="p">Build</span>(
+  <span class="k">dig</span>.<span class="p">Provide</span>(<span class="p">NewDB</span>),
+  <span class="k">dig</span>.<span class="p">Provide</span>(<span class="p">NewService</span>),
+  <span class="k">dig</span>.<span class="p">Invoke</span>(<span class="p">app</span>.<span class="p">Run</span>),
+)
+<span class="c">// $ digen ./... → dig_gen.go</span>
+<span class="c">// 错误在生成期暴露，运行期零反射</span></code></pre>
+        </div>
+      </div>
+
+      <h3 class="group-title" data-i18n="projects.groupSys">自研系统</h3>
+
+      <div class="pcard pwide">
+        <div class="pcard-head">
+          <div class="picon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3c1.8 2.6 2.7 5 2.7 7.5A2.7 2.7 0 1 1 9.3 10.5c0-2.5.9-4.9 2.7-7.5z"/><path d="M12 3v16"/><circle cx="12" cy="13" r="1.6"/><path d="M6 21h12"/></svg></div>
+          <div class="pt">
+            <span class="ptag" data-i18n="projects.robot.tag">项目 · 机器人车队</span>
+            <h3 data-i18n="projects.robot.name">robot — 机器人车队管理平台</h3>
+          </div>
+        </div>
+        <p class="pdesc" data-i18n="projects.robot.desc">机器人车队管理与交通规划平台：Go 后端服务、路径规划与监控仪表盘，私有仓库交付。</p>
+        <ul class="points">
+          <li data-i18n="projects.robot.p1">Go 后端：appserver（NEXT_APP）+ next-traffic-planner 路径规划，Docker 化部署</li>
+          <li data-i18n="projects.robot.p2">React 监控仪表盘（Vapp-C2S）：离线地图渲染 + Web API</li>
+          <li data-i18n="projects.robot.p3">车队视频链路（LiveKit 客户端）与私有化交付</li>
+        </ul>
+        <div class="chips"><span class="chip">Go</span><span class="chip">React</span><span class="chip">路径规划</span><span class="chip">Docker</span><span class="chip">LiveKit</span></div>
+      </div>
+
+      <div class="pgrid">
+        <div class="pcard">
+          <div class="pcard-head">
+            <div class="picon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg></div>
+            <div class="pt">
+              <span class="ptag" data-i18n="projects.hermes.tag">自研 · AI Agent</span>
+              <h3 data-i18n="projects.hermes.name">Hermes — AI Agent 系统</h3>
+            </div>
+          </div>
+          <p class="pdesc" data-i18n="projects.hermes.desc">可本地部署的 AI Agent：会话、RAG、技能与经验闭环、多租户，WebUI 与 Flutter 移动端齐备。</p>
+          <ul class="points">
+            <li data-i18n="projects.hermes.p1">Go 后端约 66 个包 + Flutter 移动端（中英 l10n）</li>
+            <li data-i18n="projects.hermes.p2">eval --skill-effect 技能注入效果评测，经验闭环淘汰低效技能</li>
+            <li data-i18n="projects.hermes.p3">HITL 人工介入、Checkpoint、异步任务、MCP / A2A / SSE 接入</li>
+          </ul>
+          <div class="chips"><span class="chip">Go</span><span class="chip">Flutter</span><span class="chip">RAG</span><span class="chip">MCP/A2A</span><span class="chip">WebUI</span></div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-head">
+            <div class="picon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v11.5"/><path d="M4 17.5h16M12 4v11.5"/><path d="M8 11h8"/></svg></div>
+            <div class="pt">
+              <span class="ptag" data-i18n="projects.ride.tag">自研 · 出行 / 本地生活</span>
+              <h3 data-i18n="projects.ride.name">Ride — 出行与本地生活平台</h3>
+            </div>
+          </div>
+          <p class="pdesc" data-i18n="projects.ride.desc">顺风车、网约车、外卖、跑腿、全国送一体，乘客 / 司机 / 管理三端 + Go 后端。</p>
+          <ul class="points">
+            <li data-i18n="projects.ride.p1">React 19 + TypeScript + Vite 三端，Go + GORM 模块化，dig 装配</li>
+            <li data-i18n="projects.ride.p2">平台公约 P0/P1 落地：广告必标、账单明细分行、折价基准、处置理由可见</li>
+            <li data-i18n="projects.ride.p3">透明风控五道防线、信用体系与申诉众裁</li>
+          </ul>
+          <div class="chips"><span class="chip">React 19</span><span class="chip">TypeScript</span><span class="chip">Go</span><span class="chip">GORM</span><span class="chip">dig</span></div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-head">
+            <div class="picon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></div>
+            <div class="pt">
+              <span class="ptag" data-i18n="projects.huidao.tag">自研 · 外卖 / 跑腿</span>
+              <h3 data-i18n="projects.huidao.name">huidao — 惠到生活·配送平台</h3>
+            </div>
+          </div>
+          <p class="pdesc" data-i18n="projects.huidao.desc">外卖、跑腿、送文件、全国送的本地生活配送平台，把平台公约落进账单与派单规则。</p>
+          <ul class="points">
+            <li data-i18n="projects.huidao.p1">Go 1.26 后端 + React 19 买家端 / 管理端 + Flutter 移动端三壳（买家 / 商家 / 骑手）</li>
+            <li data-i18n="projects.huidao.p2">公约代码级落地：下单前计价快照、账单四行公示、广告不进排序</li>
+            <li data-i18n="projects.huidao.p3">配送包一次性购买无自动续费，佣金区间公开</li>
+          </ul>
+          <div class="chips"><span class="chip">Go</span><span class="chip">React 19</span><span class="chip">Flutter</span><span class="chip">GORM</span></div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-head">
+            <div class="picon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg></div>
+            <div class="pt">
+              <span class="ptag" data-i18n="projects.logix.tag">自研 · 货运撮合</span>
+              <h3 data-i18n="projects.logix.name">LogiX — 轻资产货运撮合平台</h3>
+            </div>
+          </div>
+          <p class="pdesc" data-i18n="projects.logix.desc">不买车、不养司机，AI 撮合同城、跨城顺路、专线与干线货运。</p>
+          <ul class="points">
+            <li data-i18n="projects.logix.p1">Go 服务 + React 司机端，支付 / 结算 / 提现打款通道闭环</li>
+            <li data-i18n="projects.logix.p2">OCR、税务、监管合规模块，dev 空配置回退不阻塞启动</li>
+            <li data-i18n="projects.logix.p3">只靠透明抽成与明码增值服务，无会员、无订阅</li>
+          </ul>
+          <div class="chips"><span class="chip">Go</span><span class="chip">React</span><span class="chip">支付结算</span><span class="chip">合规</span></div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-head">
+            <div class="picon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4L11 3.8A2 2 0 0 0 9.6 3H4a1 1 0 0 0-1 1v5.6c0 .5.2 1 .6 1.4l9.6 9.6a2 2 0 0 0 2.8 0l4.6-4.6a2 2 0 0 0 0-2.8z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg></div>
+            <div class="pt">
+              <span class="ptag" data-i18n="projects.sight.tag">自研 · 二手交易</span>
+              <h3 data-i18n="projects.sight.name">SecondSight — 二手集市</h3>
+            </div>
+          </div>
+          <p class="pdesc" data-i18n="projects.sight.desc">面向个人的实物二手交易平台：发布闲置、搜索沟通、下单支付、互评与举报治理全链路。</p>
+          <ul class="points">
+            <li data-i18n="projects.sight.p1">Go 1.26 + dig + routix + GORM / PostgreSQL + WebSocket</li>
+            <li data-i18n="projects.sight.p2">React 19 买家端 / 管理端 / 共享库三子项目</li>
+            <li data-i18n="projects.sight.p3">15 个业务模块，覆盖鉴权、支付、物流、互评与举报治理</li>
+          </ul>
+          <div class="chips"><span class="chip">Go</span><span class="chip">React 19</span><span class="chip">dig</span><span class="chip">PostgreSQL</span></div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-head">
+            <div class="picon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 8h13v8H3z"/><circle cx="19.5" cy="12" r="2"/><path d="M8 12l2 1.5 2-2.5 3 3"/></svg></div>
+            <div class="pt">
+              <span class="ptag" data-i18n="projects.hawkeye.tag">自研 · 视频监控</span>
+              <h3 data-i18n="projects.hawkeye.name">Hawkeye — NVR + AI 视频监控</h3>
+            </div>
+          </div>
+          <p class="pdesc" data-i18n="projects.hawkeye.desc">可水平扩展的 NVR + AI 监控：100+ 路 4K，端到端预览延迟小于 500ms。</p>
+          <ul class="points">
+            <li data-i18n="projects.hawkeye.p1">Go 编排 + ZLMediaKit 流媒体枢纽，边缘 ffmpeg 零转码推流</li>
+            <li data-i18n="projects.hawkeye.p2">WebRTC 实时预览 100–300ms，ONNX + YOLOv8n / SCRFD 人形与人脸识别</li>
+            <li data-i18n="projects.hawkeye.p3">Flutter 客户端一套覆盖 Android / iOS / Web，部署面向 Linux</li>
+          </ul>
+          <div class="chips"><span class="chip">Go</span><span class="chip">C++</span><span class="chip">WebRTC</span><span class="chip">ONNX</span><span class="chip">Flutter</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 理念 ===== -->
+  <section class="section" id="principles">
+    <div class="wrap">
+      <h2 class="s-title" data-i18n="principles.title">理念</h2>
+      <div class="s-rule"></div>
+      <div class="principles">
+        <div class="principle">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.5L13 13l-3.5 1.5L11 11l3.5-1.5z"/></svg>
+          <h3 data-i18n="principles.p1t">第一性选型</h3>
+          <p data-i18n="principles.p1d">计算密集交给 C/C++，编排交给 Go；边缘最轻、中心汇聚；部署只认 Linux。不跟风，看本质。</p>
+        </div>
+        <div class="principle">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>
+          <h3 data-i18n="principles.p2t">最小可靠</h3>
+          <p data-i18n="principles.p2d">单静态二进制、零运行时反射、进程即用即关。能删的代码不保留，能重建的不过渡兼容。</p>
+        </div>
+        <div class="principle">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H8l-4 4V4z"/><path d="M8 9h8M8 12.5h5"/></svg>
+          <h3 data-i18n="principles.p3t">透明可审计</h3>
+          <p data-i18n="principles.p3d">每一分钱可核对、每一次处置可申诉、每一个结论可复现。数据对不上，就当 bug 修。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 技术栈 ===== -->
+  <section class="section" id="stack">
+    <div class="wrap">
+      <h2 class="s-title" data-i18n="stack.title">技术栈</h2>
+      <div class="s-rule"></div>
+      <div class="stack">
+        <div class="stack-group">
+          <h3 data-i18n="stack.g1">后端</h3>
+          <div class="chips"><span class="chip">Go</span><span class="chip">Java</span><span class="chip">GORM</span><span class="chip">dig / digen</span></div>
+        </div>
+        <div class="stack-group">
+          <h3 data-i18n="stack.g2">前端</h3>
+          <div class="chips"><span class="chip">React 19</span><span class="chip">TypeScript</span><span class="chip">Vite</span></div>
+        </div>
+        <div class="stack-group">
+          <h3 data-i18n="stack.g3">移动端</h3>
+          <div class="chips"><span class="chip">Flutter</span><span class="chip">Dart</span><span class="chip">WebRTC</span></div>
+        </div>
+        <div class="stack-group">
+          <h3 data-i18n="stack.g4">数据与 AI</h3>
+          <div class="chips"><span class="chip">SQLite</span><span class="chip">PostgreSQL</span><span class="chip">LLM Agent</span><span class="chip">RAG</span><span class="chip">ONNX</span></div>
+        </div>
+        <div class="stack-group">
+          <h3 data-i18n="stack.g5">媒体与工程</h3>
+          <div class="chips"><span class="chip">ZLMediaKit</span><span class="chip">ffmpeg</span><span class="chip">Linux</span><span class="chip">mage</span><span class="chip">digen</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 联系 ===== -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <h2 class="s-title" data-i18n="contact.title">联系</h2>
+      <div class="s-rule"></div>
+      <div class="contact-card">
+        <div class="contact-row">
+          <span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg></span>
+          <span class="cl" data-i18n="contact.gitLabel">GitHub</span>
+          <a class="cv" href="https://github.com/shanjunmei" target="_blank" rel="noopener">github.com/shanjunmei</a>
+        </div>
+        <div class="contact-row">
+          <span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg></span>
+          <span class="cl" data-i18n="contact.mailLabel">邮箱</span>
+          <a class="cv" href="mailto:shanjunmei@qq.com" data-i18n="contact.mailValue">shanjunmei@qq.com</a>
+        </div>
+        <div class="contact-row">
+          <span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
+          <span class="cl" data-i18n="contact.docsLabel">dig 文档站</span>
+          <a class="cv" href="https://shanjunmei.github.io/dig/" target="_blank" rel="noopener">shanjunmei.github.io/dig</a>
+        </div>
+        <div class="contact-row">
+          <span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+          <span class="cl" data-i18n="contact.locLabel">坐标</span>
+          <span class="cv" data-i18n="contact.locValue">深圳 · China</span>
+        </div>
+        <p class="contact-note" data-i18n="contact.note">项目持续开源与迭代中，欢迎交流后端架构、Go 工程化与 AI Agent 实践。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span data-i18n="footer.line">© 2026 shanjunmei · Go · React · Flutter</span>
+  </div>
+</footer>
+
+<script>
+/* ============ i18n 词条 ============ */
+var I18N = {
+  zh: {
+    "nav.about":"关于","nav.projects":"项目","nav.principles":"理念","nav.stack":"技术栈","nav.contact":"联系",
+    "themeToDark":"暗色","themeToLight":"亮色",
+    "hero.whoami":"whoami — backend architect · open-source maintainer",
+    "hero.h1":"十年后端，七个自研系统，一个开源框架",
+    "hero.lead":"我是 shanjunmei，Go 后端架构师、开源维护者、AI Agent 实践者。信奉第一性原理选型，方案要可验证，结果要可追溯。",
+    "hero.cta1":"查看项目","hero.cta2":"GitHub",
+    "stats.jv":"年 Java 后端经验","stats.gv":"年 Go 后端架构","stats.prj":"个从零自研系统","stats.oss":"个开源框架",
+    "about.title":"关于我",
+    "about.p1":"我是一名后端架构师，十多年 Java 后端打底，五年来主力转向 Go。长期在做三件事：打磨编译期依赖注入框架 dig 与代码生成器 digen；从零构建 AI Agent 系统 Hermes；把「平台公约」逐条落地成 Ride、huidao、LogiX 等平台的代码与制度。",
+    "about.p2":"我偏好的工程方式：选型从原理出发，方案必须可验证，数字必须可追溯。计算密集的事交给 C/C++，编排与控制交给 Go；能编译期解决的绝不留给运行时；能删掉的中间产物绝不保留过渡兼容。",
+    "about.p3":"做产品时，我同样只有一句话：不玩套路，只赚明钱——明码实价、排序不卖、广告必标，写进代码，也写进公约。",
+    "about.factsTitle":"个人档案",
+    "about.f1":"坐标：深圳","about.f2":"跨平台：Windows / macOS / Linux","about.f3":"移动端：Flutter 一套代码多端","about.f4":"深度使用 AI 辅助开发",
+    "projects.title":"项目",
+    "projects.dig.tag":"开源 · Go",
+    "projects.dig.name":"shanjunmei/dig — 编译期依赖注入",
+    "projects.dig.desc":"Fx 式极简 API + Wire 式代码生成：零反射、零运行时依赖，依赖错误在生成期暴露，而非运行期。",
+    "projects.dig.p1":"闭包捕获安全 + Identity-closure 折叠，同类型多实例用参数名注入",
+    "projects.dig.p2":"digen 内建 check / graph（Mermaid）/ explain 诊断，错误带 file:line 与修复建议",
+    "projects.dig.p3":"30+ 示例应用与 gen_failures 契约测试套件，持续迭代至 v1.0.24",
+    "projects.dig.l1":"GitHub →","projects.dig.l2":"文档站 →",
+    "projects.groupSys":"自研系统",
+    "projects.robot.tag":"项目 · 机器人车队",
+    "projects.robot.name":"robot — 机器人车队管理平台",
+    "projects.robot.desc":"机器人车队管理与交通规划平台：Go 后端服务、路径规划与监控仪表盘，私有仓库交付。",
+    "projects.robot.p1":"Go 后端：appserver（NEXT_APP）+ next-traffic-planner 路径规划，Docker 化部署",
+    "projects.robot.p2":"React 监控仪表盘（Vapp-C2S）：离线地图渲染 + Web API",
+    "projects.robot.p3":"车队视频链路（LiveKit 客户端）与私有化交付",
+    "projects.huidao.tag":"自研 · 外卖 / 跑腿",
+    "projects.huidao.name":"huidao — 惠到生活·配送平台",
+    "projects.huidao.desc":"外卖、跑腿、送文件、全国送的本地生活配送平台，把平台公约落进账单与派单规则。",
+    "projects.huidao.p1":"Go 1.26 后端 + React 19 买家端 / 管理端 + Flutter 移动端三壳（买家 / 商家 / 骑手）",
+    "projects.huidao.p2":"公约代码级落地：下单前计价快照、账单四行公示、广告不进排序",
+    "projects.huidao.p3":"配送包一次性购买无自动续费，佣金区间公开",
+    "projects.sight.tag":"自研 · 二手交易",
+    "projects.sight.name":"SecondSight — 二手集市",
+    "projects.sight.desc":"面向个人的实物二手交易平台：发布闲置、搜索沟通、下单支付、互评与举报治理全链路。",
+    "projects.sight.p1":"Go 1.26 + dig + routix + GORM / PostgreSQL + WebSocket",
+    "projects.sight.p2":"React 19 买家端 / 管理端 / 共享库三子项目",
+    "projects.sight.p3":"15 个业务模块，覆盖鉴权、支付、物流、互评与举报治理",
+    "projects.hermes.tag":"自研 · AI Agent",
+    "projects.hermes.name":"Hermes — AI Agent 系统",
+    "projects.hermes.desc":"可本地部署的 AI Agent：会话、RAG、技能与经验闭环、多租户，WebUI 与 Flutter 移动端齐备。",
+    "projects.hermes.p1":"Go 后端约 66 个包 + Flutter 移动端（中英 l10n）",
+    "projects.hermes.p2":"eval --skill-effect 技能注入效果评测，经验闭环淘汰低效技能",
+    "projects.hermes.p3":"HITL 人工介入、Checkpoint、异步任务、MCP / A2A / SSE 接入",
+    "projects.ride.tag":"自研 · 出行 / 本地生活",
+    "projects.ride.name":"Ride — 出行与本地生活平台",
+    "projects.ride.desc":"顺风车、网约车、外卖、跑腿、全国送一体，乘客 / 司机 / 管理三端 + Go 后端。",
+    "projects.ride.p1":"React 19 + TypeScript + Vite 三端，Go + GORM 模块化，dig 装配",
+    "projects.ride.p2":"平台公约 P0/P1 落地：广告必标、账单明细分行、折价基准、处置理由可见",
+    "projects.ride.p3":"透明风控五道防线、信用体系与申诉众裁",
+    "projects.logix.tag":"自研 · 货运撮合",
+    "projects.logix.name":"LogiX — 轻资产货运撮合平台",
+    "projects.logix.desc":"不买车、不养司机，AI 撮合同城、跨城顺路、专线与干线货运。",
+    "projects.logix.p1":"Go 服务 + React 司机端，支付 / 结算 / 提现打款通道闭环",
+    "projects.logix.p2":"OCR、税务、监管合规模块，dev 空配置回退不阻塞启动",
+    "projects.logix.p3":"只靠透明抽成与明码增值服务，无会员、无订阅",
+    "projects.hawkeye.tag":"自研 · 视频监控",
+    "projects.hawkeye.name":"Hawkeye — NVR + AI 视频监控",
+    "projects.hawkeye.desc":"可水平扩展的 NVR + AI 监控：100+ 路 4K，端到端预览延迟小于 500ms。",
+    "projects.hawkeye.p1":"Go 编排 + ZLMediaKit 流媒体枢纽，边缘 ffmpeg 零转码推流",
+    "projects.hawkeye.p2":"WebRTC 实时预览 100–300ms，ONNX + YOLOv8n / SCRFD 人形与人脸识别",
+    "projects.hawkeye.p3":"Flutter 客户端一套覆盖 Android / iOS / Web，部署面向 Linux",
+    "principles.title":"工程理念",
+    "principles.p1t":"第一性选型",
+    "principles.p1d":"计算密集交给 C/C++，编排交给 Go；边缘最轻、中心汇聚；部署只认 Linux。不跟风，看本质。",
+    "principles.p2t":"最小可靠",
+    "principles.p2d":"单静态二进制、零运行时反射、进程即用即关。能删的代码不保留，能重建的不过渡兼容。",
+    "principles.p3t":"透明可审计",
+    "principles.p3d":"每一分钱可核对、每一次处置可申诉、每一个结论可复现。数据对不上，就当 bug 修。",
+    "stack.title":"技术栈",
+    "stack.g1":"后端","stack.g2":"前端","stack.g3":"移动端","stack.g4":"数据与 AI","stack.g5":"媒体与工程",
+    "contact.title":"联系",
+    "contact.gitLabel":"GitHub","contact.docsLabel":"dig 文档站","contact.locLabel":"坐标",
+    "contact.locValue":"深圳 · China",
+    "contact.mailLabel":"邮箱","contact.mailValue":"shanjunmei@qq.com",
+    "a11y.skip":"跳到主内容",
+    "contact.note":"项目持续开源与迭代中，欢迎交流后端架构、Go 工程化与 AI Agent 实践。",
+    "footer.line":"© 2026 shanjunmei · Go · React · Flutter"
+  },
+  en: {
+    "nav.about":"About","nav.projects":"Projects","nav.principles":"Principles","nav.stack":"Stack","nav.contact":"Contact",
+    "themeToDark":"Dark","themeToLight":"Light",
+    "hero.whoami":"whoami — backend architect · open-source maintainer",
+    "hero.h1":"Ten years of backend. Seven self-built systems. One open-source framework.",
+    "hero.lead":"I'm shanjunmei — a Go backend architect, open-source maintainer, and AI-agent practitioner. I choose by first principles: plans must be verifiable, results traceable.",
+    "hero.cta1":"View projects","hero.cta2":"GitHub",
+    "stats.jv":"yrs Java backend","stats.gv":"yrs Go architecture","stats.prj":"self-built systems","stats.oss":"open-source framework",
+    "about.title":"About",
+    "about.p1":"I'm a backend architect with over a decade in Java and five-plus years centered on Go. Three things occupy me long-term: polishing dig and its generator digen, a compile-time dependency injection framework; building Hermes, an AI-agent system from scratch; and turning the \"Platform Covenant\" into code and policy, line by line, across Ride, huidao, LogiX and more.",
+    "about.p2":"My engineering style: choose by first principles, make every plan verifiable, and keep every number traceable. Compute-heavy work goes to C/C++, orchestration goes to Go; what can be solved at compile time never waits for runtime; removable intermediate artifacts never get transitional compatibility.",
+    "about.p3":"For products I hold a single line: no tricks, only honest money — clear pricing, no paid ranking, labeled ads, encoded in code and in policy alike.",
+    "about.factsTitle":"Profile",
+    "about.f1":"Based in Shenzhen","about.f2":"Cross-platform: Windows / macOS / Linux","about.f3":"Mobile: one Flutter codebase, many targets","about.f4":"Heavy user of AI-assisted development",
+    "projects.title":"Projects",
+    "projects.dig.tag":"Open Source · Go",
+    "projects.dig.name":"shanjunmei/dig — Compile-time Dependency Injection",
+    "projects.dig.desc":"Fx-style minimal API + Wire-style code generation: zero reflection, zero runtime dependency; dependency errors surface at generation time, not runtime.",
+    "projects.dig.p1":"Closure-capture safety + identity-closure collapsing; multiple instances of the same type injected by parameter name",
+    "projects.dig.p2":"digen ships check / graph (Mermaid) / explain diagnostics; errors carry file:line and fix suggestions",
+    "projects.dig.p3":"30+ example apps and a gen_failures contract test suite; iterating toward v1.0.24",
+    "projects.dig.l1":"GitHub →","projects.dig.l2":"Docs →",
+    "projects.groupSys":"Self-built systems",
+    "projects.robot.tag":"Project · Robot Fleet",
+    "projects.robot.name":"robot — Robot Fleet Management Platform",
+    "projects.robot.desc":"A robot fleet management and traffic-planning platform: Go backend services, pathfinding and a monitoring dashboard, delivered against private repos.",
+    "projects.robot.p1":"Go backend: appserver (NEXT_APP) + next-traffic-planner pathfinding, Dockerized",
+    "projects.robot.p2":"React monitoring dashboard (Vapp-C2S) with offline map rendering and a web API",
+    "projects.robot.p3":"Fleet video via the LiveKit client; private deployment",
+    "projects.huidao.tag":"Self-built · Delivery",
+    "projects.huidao.name":"huidao — HuiDao Life Delivery Platform",
+    "projects.huidao.desc":"A local-life delivery platform for food, errands, documents and nationwide shipping, with the platform covenant encoded into bills and dispatch rules.",
+    "projects.huidao.p1":"Go 1.26 backend + React 19 buyer/admin web + Flutter mobile monorepo (buyer / merchant / rider)",
+    "projects.huidao.p2":"Covenant in code: quote-and-snapshot pricing, four-line itemized bills, ads never enter ranking",
+    "projects.huidao.p3":"Delivery passes are one-time purchases with no auto-renewal; commission bands public",
+    "projects.sight.tag":"Self-built · Second-hand",
+    "projects.sight.name":"SecondSight — Second-hand Marketplace",
+    "projects.sight.desc":"A person-to-person physical-goods marketplace: listing, search, chat, order & payment, reviews and reporting/moderation end to end.",
+    "projects.sight.p1":"Go 1.26 + dig + routix + GORM / PostgreSQL + WebSocket",
+    "projects.sight.p2":"React 19 buyer/admin apps plus a shared library",
+    "projects.sight.p3":"15 business modules covering auth, payment, logistics, reviews and reporting/moderation",
+    "projects.hermes.tag":"Self-built · AI Agent",
+    "projects.hermes.name":"Hermes — AI Agent System",
+    "projects.hermes.desc":"A locally deployable AI agent: sessions, RAG, skill experience loops, multi-tenancy, with both a WebUI and a Flutter mobile app.",
+    "projects.hermes.p1":"Go backend (~66 packages) + Flutter mobile client (zh/en l10n)",
+    "projects.hermes.p2":"eval --skill-effect measures skill injection impact; the experience loop retires underperforming skills",
+    "projects.hermes.p3":"HITL intervention, checkpoints, async tasks, MCP / A2A / SSE integrations",
+    "projects.ride.tag":"Self-built · Mobility / Local Life",
+    "projects.ride.name":"Ride — Mobility & Local-life Platform",
+    "projects.ride.desc":"Carpooling, ride-hailing, food delivery, errands and nationwide shipping in one, with passenger / driver / admin clients plus a Go backend.",
+    "projects.ride.p1":"React 19 + TypeScript + Vite across three clients; Go + GORM modular backend wired with dig",
+    "projects.ride.p2":"Covenant P0/P1 shipped: labeled ads, itemized bills, discount baselines, visible enforcement reasons",
+    "projects.ride.p3":"A transparent five-layer risk-control system, credit system, appeals and crowd arbitration",
+    "projects.logix.tag":"Self-built · Freight Matching",
+    "projects.logix.name":"LogiX — Asset-light Freight Matching",
+    "projects.logix.desc":"No trucks, no drivers on the books — AI matches intra-city, backhaul, dedicated-line and trunk freight.",
+    "projects.logix.p1":"Go services + React driver app; payment, settlement and payout channels form a closed loop",
+    "projects.logix.p2":"OCR, tax and regulatory compliance modules; empty configs fall back gracefully in dev",
+    "projects.logix.p3":"Revenue only from transparent commissions and priced value-adds — no memberships, no subscriptions",
+    "projects.hawkeye.tag":"Self-built · Video Surveillance",
+    "projects.hawkeye.name":"Hawkeye — NVR + AI Surveillance",
+    "projects.hawkeye.desc":"A horizontally scalable NVR + AI surveillance system: 100+ 4K channels with under 500ms end-to-end preview latency.",
+    "projects.hawkeye.p1":"Go orchestration + ZLMediaKit media hub; edge ffmpeg pushes with zero transcoding",
+    "projects.hawkeye.p2":"WebRTC live preview at 100–300ms; ONNX + YOLOv8n / SCRFD person and face detection",
+    "projects.hawkeye.p3":"One Flutter client covering Android / iOS / Web; deployment targets Linux",
+    "principles.title":"Engineering Principles",
+    "principles.p1t":"First-principle choices",
+    "principles.p1d":"Compute-heavy work goes to C/C++, orchestration goes to Go; edges stay thin, the hub converges; deployment targets Linux. No bandwagons — look at what matters.",
+    "principles.p2t":"Minimal and reliable",
+    "principles.p2d":"Single static binaries, zero runtime reflection, processes started and stopped on demand. Code that can be deleted is deleted; things that can be rebuilt get no transitional compatibility.",
+    "principles.p3t":"Transparent and auditable",
+    "principles.p3d":"Every cent checkable, every action appealable, every conclusion reproducible. Numbers that don't add up are bugs to fix.",
+    "stack.title":"Stack",
+    "stack.g1":"Backend","stack.g2":"Frontend","stack.g3":"Mobile","stack.g4":"Data & AI","stack.g5":"Media & Tooling",
+    "contact.title":"Contact",
+    "contact.gitLabel":"GitHub","contact.docsLabel":"dig Docs","contact.locLabel":"Location",
+    "contact.locValue":"Shenzhen · China",
+    "contact.mailLabel":"Email","contact.mailValue":"shanjunmei@qq.com",
+    "a11y.skip":"Skip to content",
+    "contact.note":"Projects keep evolving and open-sourcing. Happy to talk backend architecture, Go engineering and AI-agent practice.",
+    "footer.line":"© 2026 shanjunmei · Go · React · Flutter"
+  }
+};
+
+/* ============ 主题（跟随系统 + 手动切换 + 持久化） ============ */
+var THEME_KEY = "sj-theme";
+function currentTheme(){ return document.documentElement.getAttribute("data-theme"); }
+function applyTheme(t){
+  document.documentElement.setAttribute("data-theme", t);
+  var label = document.getElementById("themeLabel");
+  label.textContent = (t === "light") ? (I18N[lang()].themeToDark) : (I18N[lang()].themeToLight);
+}
+function initTheme(){
+  var saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch(e){}
+  var t = saved === "dark" || saved === "light" ? saved : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  applyTheme(t);
+}
+document.getElementById("themeBtn").addEventListener("click", function(){
+  var next = currentTheme() === "light" ? "dark" : "light";
+  applyTheme(next);
+  try { localStorage.setItem(THEME_KEY, next); } catch(e){}
+});
+
+/* ============ 语言（切换 + 持久化） ============ */
+var LANG_KEY = "sj-lang";
+var lang = function(){ return document.documentElement.getAttribute("lang").indexOf("en") === 0 ? "en" : "zh"; };
+function applyLang(l){
+  document.documentElement.setAttribute("lang", l === "en" ? "en" : "zh-CN");
+  document.getElementById("langBtn").textContent = l === "en" ? "中文" : "EN";
+  var dict = I18N[l];
+  var nodes = document.querySelectorAll("[data-i18n]");
+  for (var i = 0; i < nodes.length; i++){
+    var key = nodes[i].getAttribute("data-i18n");
+    if (dict[key]) nodes[i].textContent = dict[key];
+  }
+  document.title = l === "en" ? "shanjunmei · Backend Architect / OSS Maintainer" : "shanjunmei · 后端架构师 / 开源维护者";
+  document.querySelector('meta[name="description"]').setAttribute("content", l === "en"
+    ? "shanjunmei — Go backend architect, open-source maintainer (dig/digen), AI-agent practitioner. Ten years of backend, seven self-built systems, one open-source framework."
+    : "shanjunmei — Go 后端架构师、开源维护者（dig/digen）、AI Agent 实践者。十年后端，七个自研系统，一个开源框架。");
+  applyTheme(currentTheme());
+}
+function initLang(){
+  var saved = null;
+  try { saved = localStorage.getItem(LANG_KEY); } catch(e){}
+  var l = saved === "en" ? "en" : "zh";
+  if (l === "en") applyLang("en");
+  else applyLang("zh");
+}
+document.getElementById("langBtn").addEventListener("click", function(){
+  var next = lang() === "zh" ? "en" : "zh";
+  applyLang(next);
+  try { localStorage.setItem(LANG_KEY, next); } catch(e){}
+});
+
+/* ============ 移动端导航（汉堡菜单） ============ */
+(function(){
+  var btn = document.getElementById("navToggle");
+  var menu = document.getElementById("navLinks");
+  if (!btn || !menu) return;
+  function close(){ menu.classList.remove("open"); btn.setAttribute("aria-expanded","false"); }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); var open = menu.classList.toggle("open"); btn.setAttribute("aria-expanded", open ? "true" : "false"); });
+  menu.addEventListener("click", function(e){ if (e.target.tagName === "A") close(); });
+  document.addEventListener("click", function(e){ if (!menu.contains(e.target) && !btn.contains(e.target)) close(); });
+  window.addEventListener("resize", function(){ if (window.innerWidth > 640) close(); });
+  window.addEventListener("keydown", function(e){ if (e.key === "Escape") close(); });
+})();
+
+/* ============ 初始化 ============ */
+initTheme();
+initLang();
+</script>
+</body>
+</html>
